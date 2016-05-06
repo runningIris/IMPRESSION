@@ -1,0 +1,85 @@
+﻿<!--\
+    这是一个简单博客的demo，在WebMatrix环境下开发，内含数据库、采用ASP.Net技术，用C#编写
+    1. 登录注销机制，逻辑如下：
+        1）创建一个名为“Blog”的数据库；并创建表“Users”，内含 ID，username，password字段，其中ID是标识；初始化一个用户名及密码（admin，123）
+        2）创建一个表单以输入用户名、密码；
+        3）提交后，request用户输入的用户名和密码，检验是否为空，二者皆不为空则打开数据库“Blog”；
+        4）从表"Users"中寻找是否存在该用户名和密码：
+            a. 存在：Session["username"] = username, 继续编写注销机制
+            b. 不存在：<p>Incorrect username or password</p>
+        5)注销：先确定Session["username"]不为空，创建一个链接(点击)<a href="?logout=true">Log out</a>
+        6)if(Request["logout"] == "true"){ 把username从Session中删除，页面再次初始化}
+    2. 
+-->
+
+@{
+    var db = Database.Open("Blog");
+    //登录注销机制
+    if(Request["logout"] == "true"){
+        Session.Remove("username");
+        Response.Redirect("/");
+    }
+    if(IsPost){
+        var username = Request["username"];
+        var password = Request["password"];
+        
+        if(username!=null && password!=null){
+
+            var user = db.QuerySingle("SELECT * FROM Users WHERE username = @0 AND password = @1", username, password);
+            if(user != null){
+                Session["username"] = username;
+            }else{
+                <h1>Incorrect username or password</h1>
+            }
+        }
+
+        var title = Request["title"];
+        var content = Request["content"];
+
+        if(title != null){
+            db.Execute("INSERT INTO Posts(Title, Content, TimePublished) VALUES(@0, @1, @2)", title, content, DateTime.Now);
+        }
+    }
+    var posts = db.Query("SELECT * FROM Posts");
+    
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>A Simple Blog</title>
+    </head>
+    <body>
+        <!--登录注销机制-->
+        @if(Session["username"] != null){
+            <h2>@Session["username"] Logged in Successfully </h2>
+            <a href="?logout=true">LOG OUT</a>
+        }else{
+            <h3>请输入用户名和密码： </h3>
+            <form method="post">
+                <input type="text" name="username" placeholder="Username">
+                <input type="text" name="password" placeholder="Password">
+                <input type="submit">
+            </form>
+        }  
+        <!--提交文章-->
+        <form method="post">
+            <p>Please enter your post title and content: </p>
+            <input type="text" name="title" placeholder="Title">
+            <br><br>
+            <textarea name="content" placeholder="Content"></textarea>
+            <input type="submit">
+        <!--显示文章标题-->
+        <div id="postTitle">
+            <ol>
+                @foreach(var post in posts){
+                    <li><a href="Post.cshtml?PostID=@post.ID">@post.Title</a> @post.TimePublished</li>
+                }
+            </ol>
+            
+        </div>
+        </form>
+    </body>
+</html>

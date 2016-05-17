@@ -11,18 +11,15 @@
         6)if(Request["logout"] == "true"){ 把username从Session中删除，页面再次初始化}
     2. 
 -->
-<!--2016.5.17
-    登录和注册页面需要分开， 不可以同时post-->
-@{
-//数据库操作：1. 登录注销 2. 提交（删除）新文章 3. 注册机制
 
+@{
     var db = Database.Open("Blog");
-    //<登录注销机制>
+    //登录注销机制
     if(Request["logout"] == "true"){
         Session.Remove("username");
         Response.Redirect("/");
     }
-    if(IsPost){        //全部表单一起post？？？？
+    if(IsPost){
         var username = Request["username"];
         var password = Request["password"];
         
@@ -35,23 +32,16 @@
                 <h1>Incorrect username or password</h1>
             }
         }
-        //</登录注销机制>
 
-        //<提交新文章>
         var title = Request["title"];
         var content = Request["content"];
 
         if(title != null){
             db.Execute("INSERT INTO Posts(Title, Content, TimePublished) VALUES(@0, @1, @2)", title, content, DateTime.Now);
         }
-        //</提交新文章>
-
-        //<注册机制>
-        var r_username = Request["r_username"];
-        //</注册机制>
     }
     var posts = db.Query("SELECT * FROM Posts");
-        
+    
 }
 
 <!DOCTYPE html>
@@ -60,75 +50,36 @@
     <head>
         <meta charset="utf-8" />
         <title>A Simple Blog</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     </head>
     <body>
         <!--登录注销机制-->
-        <div class="jumbotron" id="login">
         @if(Session["username"] != null){
             <h2>@Session["username"] Logged in Successfully </h2>
             <a href="?logout=true">LOG OUT</a>
         }else{
             <h3>请输入用户名和密码： </h3>
-            <form method="post" role="form" class="form-inline">
-                <div class="form-group">
-                    <label for="username" class="col-small-2 control-label">&nbsp;用户名：</label>
-                    <input type="text" name="username" id="username" placeholder="Username" class="form-control input-small" >
-                    <!--
-                    <span class="help-inline">你输入的信息是正确的</span>
-                    <span class="glyphiconglyphicon-ok form-control-feedback"></span>
-                    -->
-                </div><br>
-                <div class="form-group">
-                    <label class="control-label col-small-2" for="password">&nbsp;密码：&nbsp;&nbsp;&nbsp;  </label>
-                    <input type="text" name="password" id="password" placeholder="Password" class="form-control input-small">
-                </div><br>&nbsp;&nbsp;
-                <input type="submit" value="提交" class="btn btn-default" id="submitBtn">
-            </form>
-        }
-        </div>  
-        <!--<注册demo>-->
-        <div class="" id="registration">
             <form method="post">
-                <h3>注册新用户</h3>
-                <hr>
-                <div class="form-group">
-                    <label class="control-label col-small-2" for="r_username">&nbsp;用户名：</label>
-                    <input type="text" name="r_username" placeholder="Username" id="r_username">
-                    <span id="availability"></span><br>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-small-2" for="r_password">&nbsp;密码：</label>
-                    <input type="password" name="r_password" placeholder="Password" id="r_password">
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-small-2" for="r_confirmpassword">&nbsp; 确认密码：</label>
-                    <input type="password" name="r_confirmPassword" placeholder="ConfirmPassword" id="r_confirmpassword">
-                </div>
-                <input type="submit" name="submit" class="btn btn-default" id="r_submitBtn" value="注册">
-            </form>
-        </div>
-        <!--</注册demo>-->
-        <!--提交文章-->
-        <div id="articles">
-            <form method="post">
-                <p>Please enter your post title and content: </p>
-                <input type="text" name="title" placeholder="Title">
-                <br><br>
-                <textarea name="content" placeholder="Content"></textarea>
+                <input type="text" name="username" placeholder="Username">
+                <input type="text" name="password" placeholder="Password">
                 <input type="submit">
-            <!--显示文章标题-->
-            <div id="postTitle">
-                <ol>
-                    @foreach(var post in posts){
-                        <li><a href="Post.cshtml?PostID=@post.ID">@post.Title</a> @post.TimePublished</li>
-                    }
-                </ol>
-            
-            </div>
             </form>
+        }  
+        <!--提交文章-->
+        <form method="post">
+            <p>Please enter your post title and content: </p>
+            <input type="text" name="title" placeholder="Title">
+            <br><br>
+            <textarea name="content" placeholder="Content"></textarea>
+            <input type="submit">
+        <!--显示文章标题-->
+        <div id="postTitle">
+            <ol>
+                @foreach(var post in posts){
+                    <li><a href="Post.cshtml?PostID=@post.ID">@post.Title</a> @post.TimePublished</li>
+                }
+            </ol>
+            
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        </form>
     </body>
 </html>

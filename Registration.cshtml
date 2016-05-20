@@ -1,0 +1,77 @@
+﻿@{
+   if(IsPost){
+       var username = Request["username"];
+       var password = Request["password"];
+       if(username.Length >= 3 && password.Length >= 6){
+           var db = Database.Open("Blog");
+           db.Execute("INSERT INTO Users(username, password) VALUES(@0, @1)", username, password);
+           <h3>Registration success!</h3>
+       }
+   }
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>My Site's Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <script src="jquery-1.12.3.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    </head>
+    <body>
+        <h3><a href="/">Home</a></h3>
+        <div id="registration" style="width: 600px;">
+            <form method="post" role="form">
+                <div class="form-group form-inline">
+                    <label for="username" class="col-sm-3 control-label">用户名： </label>
+                    <input class="form-control input-small" type="text" name="username" id="username" placeholder="Username">
+                    <span id="availability"></span>
+                </div>
+                <div class="form-group form-inline">
+                    <label for="password" class="col-sm-3 control-label">密码： </label>
+                    <input class="form-control input-small" type="password" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="form-group form-inline">
+                    <label for="confirmPassword" class="col-sm-3 control-label">确认密码： </label>
+                    <input class="form-control input-small" type="password" name="comfirmPassword" id="confirmpassword" placeholder ="Confirm Password">
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-default" type="submit" id="submitBtn" value="确定注册">
+                </div>
+            </form>
+        </div>
+        <script>
+            var username = document.querySelector("#username");
+            username.onkeyup = function () {
+                $.post("/CheckUser.cshtml", { "username": username.value }, function (data) {
+                    console.log(data);
+                    var avail = document.querySelector("#availability");
+                    if (data == "1") {
+                        avail.innerText = "This name has been taken"
+                    } else {
+                        avail.innerText = "This name is availble";
+                    }
+                })
+            }
+            //检测密码两遍输入是否一样
+            document.querySelector("#submitBtn").onclick = function () {
+                var username = document.querySelector("#username");
+                var password = document.querySelector("#password");
+                var confirmPassword = document.querySelector("#confirmpassword");
+                if (password.value != confirmPassword.value) {
+                    alert("Passwords are not matched!");
+                    return false;
+                }
+            }
+
+             $.post("/getTime.cshtml", {}, function (data) {
+                var div = document.createElement("div");
+                div.innerText = data;
+                document.body.appendChild(div);
+            })
+        </script>
+    </body>
+</html>

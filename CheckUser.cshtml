@@ -1,0 +1,11 @@
+﻿@{
+    var db = Database.Open("Blog");
+    var username = Request["username"];
+    var user = db.QuerySingle("SELECT * FROM Users WHERE username = @0", username);
+    if(user!=null){
+        Response.Write("1");
+    }else{
+        Response.Write("0");
+    }
+    Response.End();
+}

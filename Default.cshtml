@@ -1,22 +1,33 @@
-﻿@{
+﻿@{  
+    var db = Database.Open("Blog");
+    //practicing Uers' Posts.cshtml, BEGIN
+    var user = Session["username"];
+    //END
+    
+    var posts = db.Query("SELECT * FROM Posts");
+    
+    //Navigation   
     if(Request["logout"] == "true"){
         Session.Remove("username");
         Response.Redirect("/");
     }
+
 }
+
 <!DOCTYPE html>
 
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title></title>
-        
+        <title>A Simple Blog</title>
         <link href="css/normalize.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/StyleSheet.css">
+        <link href="css/StyleSheet.css"  rel="stylesheet"><!--暂时用不了外联表-->
+        
     </head>
     <body>
         <header>
+            <!--Navigation-->
             <nav>
                 <ul class="list-inline nav nav-pills">
                     <li class="home"><a href="/">HOME</a></li>
@@ -25,9 +36,9 @@
                             //把用户名区域变成一个下拉菜单：我的文章，注销
                             
                             <li class="dropdown">
-                                <a href="##" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
+                                <a href="cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/cshtml/MyPosts.cshtml">我的文章</a></li>
+                                    <li><a href="cshtml/MyPosts.cshtml">我的文章</a></li>
                                     <li><a href="?logout=true">退出登录</a></li>
                                 </ul>
                             </li>
@@ -40,10 +51,34 @@
                     
                 </ul>
             </nav>
+            <!--Navigation-->
+            <div id="banner">
+                <div class="inner">
+                    <h1>技术博客</h1>
+                    <p class="sub-heading">Lorem ipsum for sit amet, folter jomket consrtin alite.</p>
+                    <button class="btn btn-bg">了解我</button>
+                </div>
+            </div>
         </header>
+        <h3><a href="cshtml/Navigation.cshtml">Navigation</a></h3>
+        
+        <!--提交文章--><hr>
+        <div id="articles" class="mjp">
+            <h3>全部博文</h3>
+            <!--显示所有文章的标题-->
+            <div id="postTitle">
+                <ol>
+                    @foreach(var post in posts){
+                        <li><a href="cshtml/Post.cshtml?PostID=@post.ID">@post.Title</a> @post.TimePublished by @post.Bloger</li>
+                    }
+                </ol>
+            </div>
+
+            
+        </div>
+        <!--/提交文章-->
         <script src="main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
     </body>
 </html>

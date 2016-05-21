@@ -8,7 +8,11 @@
            <h3>Registration success!</h3>
        }
    }
-
+   
+    if(Request["logout"] == "true"){
+        Session.Remove("username");
+        Response.Redirect("/");
+    }
 
 }
 
@@ -26,26 +30,53 @@
         <link href="/css/StyleSheet.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-        <h3><a href="/">Home</a></h3>
-        <div id="registration" style="width: 600px;">
-            <form method="post" role="form">
-                <div class="form-group form-inline">
-                    <label for="username" class="col-sm-3 control-label">用户名： </label>
-                    <input class="form-control input-small" type="text" name="username" id="username" placeholder="Username">
-                    <span id="availability"></span>
-                </div>
-                <div class="form-group form-inline">
-                    <label for="password" class="col-sm-3 control-label">密码： </label>
-                    <input class="form-control input-small" type="password" name="password" id="password" placeholder="Password">
-                </div>
-                <div class="form-group form-inline">
-                    <label for="confirmPassword" class="col-sm-3 control-label">确认密码： </label>
-                    <input class="form-control input-small" type="password" name="comfirmPassword" id="confirmpassword" placeholder ="Confirm Password">
-                </div>
-                <div class="form-group">
-                    <input class="btn btn-default" type="submit" id="submitBtn" value="确定注册">
-                </div>
-            </form>
+        <header>
+            <nav>
+                <ul class="list-inline nav nav-pills">
+                    <li class="home"><a href="/">HOME</a></li>
+                    @{
+                        if(Session["username"] != null){
+                            //把用户名区域变成一个下拉菜单：我的文章，注销
+                            
+                            <li class="dropdown">
+                                <a href="cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="cshtml/MyPosts.cshtml">我的文章</a></li>
+                                    <li><a href="?logout=true">退出登录</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/#articles">Contact Me</a></li>
+                        }else{
+                            <li><a href="/cshtml/Login.cshtml">登录</a></li>
+                            <li><a href="/cshtml/Registration.cshtml">注册</a></li>
+                        }
+                    }
+                    
+                </ul>
+            </nav>
+        </header>
+        <div class="content registration">
+            <h3><a href="/">Home</a></h3>
+            <div id="registration" style="width: 600px;">
+                <form method="post" role="form">
+                    <div class="form-group form-inline">
+                        <label for="username" class="col-sm-3 control-label">用户名： </label>
+                        <input class="form-control input-small" type="text" name="username" id="username" placeholder="Username">
+                        <span id="availability"></span>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="password" class="col-sm-3 control-label">密码： </label>
+                        <input class="form-control input-small" type="password" name="password" id="password" placeholder="Password">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="confirmPassword" class="col-sm-3 control-label">确认密码： </label>
+                        <input class="form-control input-small" type="password" name="comfirmPassword" id="confirmpassword" placeholder ="Confirm Password">
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-default" type="submit" id="submitBtn" value="确定注册">
+                    </div>
+                </form>
+            </div>
         </div>
         <script>
             var username = document.querySelector("#username");

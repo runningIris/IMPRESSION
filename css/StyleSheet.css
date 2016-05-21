@@ -1,6 +1,11 @@
 body {
     
 }
+iframe{
+    margin: 0;
+    width: 100%;
+    height: 1000px;
+}
 .mjp{
     margin: 0 auto;
     width: 500px;

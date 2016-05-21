@@ -12,6 +12,12 @@
             db.Execute("INSERT INTO Comments(Content, PostID, Commenter, TimePublished) VALUES(@0, @1, @2, @3)", comment, postID, user, DateTime.Now);
         }
     }
+    
+    if(Request["logout"] == "true"){
+        Session.Remove("username");
+        Response.Redirect("/");
+    }
+
     var comments = db.Query("SELECT * FROM Comments WHERE PostID = @0", postID);
 }
 
@@ -28,27 +34,55 @@
 
     </head>
     <body>
-        <a href="/">Home</a>
-        <h1>@post.Title </h1>
-        <h4>posted by @post.Bloger</h4>
-        <div>@post.Content</div>
-        <hr>
-            <h5>Comments: </h5>
-        <div>
-            <ol>
-                @foreach(var comment in comments){
-                    <li>@comment.Content<h3>by @comment.Commenter @comment.TimePublished</h3></li>
+        <header>
+            <nav>
+                <ul class="list-inline nav nav-pills">
+                    <li class="home"><a href="/">HOME</a></li>
+                    @{
+                        if(Session["username"] != null){
+                            //把用户名区域变成一个下拉菜单：我的文章，注销
+                            
+                            <li class="dropdown">
+                                <a href="cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="cshtml/MyPosts.cshtml">我的文章</a></li>
+                                    <li><a href="?logout=true">退出登录</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/#articles">Contact Me</a></li>
+                        }else{
+                            <li><a href="/cshtml/Login.cshtml">登录</a></li>
+                            <li><a href="/cshtml/Registration.cshtml">注册</a></li>
+                        }
+                    }
+                    
+                </ul>
+            </nav>
+        </header>
+        <div class="content post">
+        
+            
+            <h1>@post.Title </h1>
+            <h4>posted by @post.Bloger</h4>
+            <div>@post.Content</div>
+            <hr>
+                <h5>Comments: </h5>
+            <div>
+                <ol>
+                    @foreach(var comment in comments){
+                        <li>@comment.Content<h3>by @comment.Commenter @comment.TimePublished</h3></li>
+                    }
+                </ol>
+            </div>
+            @{
+                if(Session["username"] != null){
+                    <form method="post">
+                        <textarea name="comment" placeholder="Write your comment here"></textarea>
+                        <input type="submit">
+                    </form>
                 }
-            </ol>
-        </div>
-        @{
-            if(Session["username"] != null){
-                <form method="post">
-                    <textarea name="comment" placeholder="Write your comment here"></textarea>
-                    <input type="submit">
-                </form>
             }
-        }
+        </div>
         <script src="/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> 

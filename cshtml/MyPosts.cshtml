@@ -33,28 +33,55 @@
         <link href="/css/StyleSheet.css"  rel="stylesheet">
     </head>
     <body>
-        <div id="postTitle">
-            <h4>我的博文</h4>
-            <ol>
-                @foreach(var post in posts){
-                    <li><a href="/cshtml/Post.cshtml?PostID=@post.ID">@post.Title</a> @post.TimePublished by @post.Bloger</li>
-                }
-            </ol>
-        </div>
-        <div id="submitArticle">
-                <!--用一个按钮来控制提交列表的出现<button>-->
-                <button type="button" class="btn btn-success" id="writeBtn">写文章</button>
-                @if(user != null){
-                    <div id="writeArea">
-                        <form method="post">
-                            <p>Please enter your post title and content: </p>
-                            <input type="text" name="title" placeholder="Title">
-                            <br><br>
-                            <textarea name="content" placeholder="Content"></textarea>
-                            <input type="submit">
-                        </form>
-                    </div>
-                }
+        <header>            
+            <nav>
+                <ul class="list-inline nav nav-pills">
+                    <li class="home"><a href="/">HOME</a></li>
+                    @{
+                        if(Session["username"] != null){
+                            //把用户名区域变成一个下拉菜单：我的文章，注销
+                            
+                            <li class="dropdown">
+                                <a href="cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="cshtml/MyPosts.cshtml">我的文章</a></li>
+                                    <li><a href="?logout=true">退出登录</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/#articles">Contact Me</a></li>
+                        }else{
+                            <li><a href="/cshtml/Login.cshtml">登录</a></li>
+                            <li><a href="/cshtml/Registration.cshtml">注册</a></li>
+                        }
+                    }
+                    
+                </ul>
+            </nav>
+        </header>
+        <div class="content mypost">
+            <div id="postTitle">
+                <h4>我的博文</h4>
+                <ol>
+                    @foreach(var post in posts){
+                        <li><a href="/cshtml/Post.cshtml?PostID=@post.ID">@post.Title</a> @post.TimePublished by @post.Bloger</li>
+                    }
+                </ol>
+            </div>
+            <div id="submitArticle">
+                    <!--用一个按钮来控制提交列表的出现<button>-->
+                    <button type="button" class="btn btn-success" id="writeBtn">写文章</button>
+                    @if(user != null){
+                        <div id="writeArea">
+                            <form method="post">
+                                <p>Please enter your post title and content: </p>
+                                <input type="text" name="title" placeholder="Title">
+                                <br><br>
+                                <textarea name="content" placeholder="Content"></textarea>
+                                <input type="submit">
+                            </form>
+                        </div>
+                    }
+            </div>
         </div>
         <script src="/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

@@ -1,0 +1,63 @@
+﻿@{
+    var db = Database.Open("Blog");
+    var user = Session["username"];
+
+    //<提交新文章>
+    var title = Request["title"];
+    var content = Request["content"];
+
+    if(IsPost){
+        if(title != null){
+        db.Execute("INSERT INTO Posts(Title, Content, Bloger, TimePublished) VALUES(@0, @1, @2, @3)", title, content, user, DateTime.Now);
+        }
+    }
+    //</提交新文章>
+
+    if(Request["logout"] == "true"){
+        Session.Remove("username");
+        Response.Redirect("/");
+    }
+
+    
+    var posts = db.Query("SELECT * FROM Posts WHERE Bloger = @0", user);
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link href="/css/normalize.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link href="/css/StyleSheet.css"  rel="stylesheet">
+    </head>
+    <body>
+        <div id="postTitle">
+            <h4>我的博文</h4>
+            <ol>
+                @foreach(var post in posts){
+                    <li><a href="/cshtml/Post.cshtml?PostID=@post.ID">@post.Title</a> @post.TimePublished by @post.Bloger</li>
+                }
+            </ol>
+        </div>
+        <div id="submitArticle">
+                <!--用一个按钮来控制提交列表的出现<button>-->
+                <button type="button" class="btn btn-success" id="writeBtn">写文章</button>
+                @if(user != null){
+                    <div id="writeArea">
+                        <form method="post">
+                            <p>Please enter your post title and content: </p>
+                            <input type="text" name="title" placeholder="Title">
+                            <br><br>
+                            <textarea name="content" placeholder="Content"></textarea>
+                            <input type="submit">
+                        </form>
+                    </div>
+                }
+        </div>
+        <script src="/main.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    </body>
+</html>

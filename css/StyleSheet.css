@@ -1,0 +1,58 @@
+body {
+    
+}
+.mjp{
+    margin: 0 auto;
+    width: 500px;
+}
+p{
+    font-size: 20px;
+    color: #f00;
+}
+
+
+#writeArea{
+    visibility: hidden;
+}
+
+nav{
+    margin: 0;
+    height: 55px;
+    background-color: #ccc;
+    font-size: 25px;
+}
+nav ul.list-inline>li{
+    float: right;
+    margin-right: 20px;
+}
+nav ul.list-inline>.home{
+    float: left;
+    margin-left: 20px;
+}
+            
+#banner{
+    background: #777;
+    height: 600px;
+                
+}
+            
+#banner .inner{
+    max-height: 300px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    top: 160px;
+}
+#banner .inner h1{
+    margin: 0;
+}
+            
+button{
+    border: none;
+    background: #333;
+    color: #eee;
+    padding: 10px;
+}
+.sub-heading{
+    margin: 20px;
+}

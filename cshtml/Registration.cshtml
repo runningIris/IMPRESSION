@@ -8,6 +8,8 @@
            <h3>Registration success!</h3>
        }
    }
+
+
 }
 
 <!DOCTYPE html>
@@ -20,6 +22,8 @@
         <script src="jquery-1.12.3.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+        <link href="css/normalize.css" rel="stylesheet">
+        <link href="/css/StyleSheet.css" type="text/css" rel="stylesheet">
     </head>
     <body>
         <h3><a href="/">Home</a></h3>
@@ -46,7 +50,7 @@
         <script>
             var username = document.querySelector("#username");
             username.onkeyup = function () {
-                $.post("/CheckUser.cshtml", { "username": username.value }, function (data) {
+                $.post("cshtml/CheckUser.cshtml", { "username": username.value }, function (data) {
                     console.log(data);
                     var avail = document.querySelector("#availability");
                     if (data == "1") {
@@ -67,11 +71,14 @@
                 }
             }
 
-             $.post("/getTime.cshtml", {}, function (data) {
+             $.post("cshtml/getTime.cshtml", {}, function (data) {
                 var div = document.createElement("div");
                 div.innerText = data;
                 document.body.appendChild(div);
             })
         </script>
+        <script src="/main.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> 
     </body>
 </html>

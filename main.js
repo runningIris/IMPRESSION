@@ -5,4 +5,5 @@ var writeArea = document.getElementById("writeArea");
 writeBtn.onclick = function ()
 {
     writeArea.style.visibility = "visible";
+    writeBtn.style.visibility = "hidden";
 }

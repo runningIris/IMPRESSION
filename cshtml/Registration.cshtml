@@ -21,7 +21,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>My Site's Title</title>
+        <title>Impression</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <script src="jquery-1.12.3.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -41,14 +41,13 @@
                             <li class="dropdown">
                                 <a href="cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="cshtml/MyPosts.cshtml">我的文章</a></li>
-                                    <li><a href="?logout=true">退出登录</a></li>
+                                    <li><a href="/cshtml/MyPosts.cshtml">My Posts</a></li>
+                                    <li><a href="?logout=true">Log Out</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/#articles">Contact Me</a></li>
+                            <li><a href="https://github.com/runningIris" target="_blank">ABOUT ME</a></li>
                         }else{
-                            <li><a href="/cshtml/Login.cshtml">登录</a></li>
-                            <li><a href="/cshtml/Registration.cshtml">注册</a></li>
+                            <li><a href="/cshtml/Login.cshtml">Login</a></li>
                         }
                     }
                     
@@ -56,24 +55,27 @@
             </nav>
         </header>
         <div class="content registration">
-            <h3><a href="/">Home</a></h3>
             <div id="registration" style="width: 600px;">
                 <form method="post" role="form">
+                    <h2 class="title">Sign Up</h2>
+                    <hr>
                     <div class="form-group form-inline">
-                        <label for="username" class="col-sm-3 control-label">用户名： </label>
-                        <input class="form-control input-small" type="text" name="username" id="username" placeholder="Username">
-                        <span id="availability"></span>
+                        <label for="username" class="col-sm-5 control-label">Username</label>
+                        <input class="form-control input-lg signup" type="text" name="username" id="username" placeholder="Username">
+                        <div>
+                            <h3 id="availability"></h3>
+                        </div>
                     </div>
                     <div class="form-group form-inline">
-                        <label for="password" class="col-sm-3 control-label">密码： </label>
-                        <input class="form-control input-small" type="password" name="password" id="password" placeholder="Password">
+                        <label for="password" class="col-sm-5 control-label">Password</label>
+                        <input class="form-control input-lg signup" type="password" name="password" id="password" placeholder="Password">
                     </div>
                     <div class="form-group form-inline">
-                        <label for="confirmPassword" class="col-sm-3 control-label">确认密码： </label>
-                        <input class="form-control input-small" type="password" name="comfirmPassword" id="confirmpassword" placeholder ="Confirm Password">
+                        <label for="confirmPassword" class="col-sm-5 control-label">Confirm Password</label>
+                        <input class="form-control input-lg signup" type="password" name="comfirmPassword" id="confirmpassword" placeholder ="Confirm Password">
                     </div>
-                    <div class="form-group">
-                        <input class="btn btn-default" type="submit" id="submitBtn" value="确定注册">
+                    <div class="form-group btn signup">
+                        <input class="btn btn-primary signup" type="submit" id="submitBtn" value="Sign Up">
                     </div>
                 </form>
             </div>
@@ -81,7 +83,7 @@
         <script>
             var username = document.querySelector("#username");
             username.onkeyup = function () {
-                $.post("cshtml/CheckUser.cshtml", { "username": username.value }, function (data) {
+                $.post("/cshtml/CheckUser.cshtml", { "username": username.value }, function (data) {
                     console.log(data);
                     var avail = document.querySelector("#availability");
                     if (data == "1") {
@@ -101,13 +103,14 @@
                     return false;
                 }
             }
-
-             $.post("cshtml/getTime.cshtml", {}, function (data) {
-                var div = document.createElement("div");
-                div.innerText = data;
-                document.body.appendChild(div);
-            })
         </script>
+        
+        <footer>
+            <div class="copyright">
+                <h5>Guangdong University of Foreign Studies |  TELL: 18819421945   </h5>
+                <h5>Copyright © Iris 2016</h5>
+            </div>
+        </footer>
         <script src="/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> 

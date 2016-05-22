@@ -26,7 +26,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>A Simple Blog</title>
+        <title>Impression</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <link href="/css/normalize.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -43,16 +43,16 @@
                             //把用户名区域变成一个下拉菜单：我的文章，注销
                             
                             <li class="dropdown">
-                                <a href="cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
+                                <a href="/cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="cshtml/MyPosts.cshtml">我的文章</a></li>
-                                    <li><a href="?logout=true">退出登录</a></li>
+                                    <li><a href="/cshtml/MyPosts.cshtml">@Session["username"]'s Posts</a></li>
+                                    <li><a href="?logout=true">Log Out</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/#articles">Contact Me</a></li>
+                            <li><a href="https://github.com/runningIris">ABOUT ME</a></li>
                         }else{
-                            <li><a href="/cshtml/Login.cshtml">登录</a></li>
-                            <li><a href="/cshtml/Registration.cshtml">注册</a></li>
+                            <li><a href="/cshtml/Login.cshtml">Login</a></li>
+                            <li><a href="/cshtml/Registration.cshtml">Registration</a></li>
                         }
                     }
                     
@@ -62,27 +62,33 @@
         <div class="content post">
         
             
-            <h1>@post.Title </h1>
-            <h4>posted by @post.Bloger</h4>
-            <div>@post.Content</div>
+            <h2 class="title">@post.Title </h2>
+            <p class="poster">posted by @post.Bloger</p>
+            <div><pre>@post.Content</pre></div>
             <hr>
                 <h5>Comments: </h5>
             <div>
                 <ol>
                     @foreach(var comment in comments){
-                        <li>@comment.Content<h3>by @comment.Commenter @comment.TimePublished</h3></li>
+                        <li>@comment.Content<p class="poster">by @comment.Commenter @comment.TimePublished</p></li>
                     }
                 </ol>
             </div>
             @{
                 if(Session["username"] != null){
                     <form method="post">
-                        <textarea name="comment" placeholder="Write your comment here"></textarea>
-                        <input type="submit">
+                        <textarea class="form-control" rows ="3"name="comment" placeholder="Write your comment here"></textarea>
+                        <input class="form-control btn btn-success"type="submit">
                     </form>
                 }
             }
         </div>
+        <footer>
+            <div class="copyright">
+                <h5>Guangdong University of Foreign Studies |  TELL: 18819421945   </h5>
+                <h5>Copyright © Iris 2016</h5>
+            </div>
+        </footer>
         <script src="/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> 

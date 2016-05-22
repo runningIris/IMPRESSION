@@ -1,29 +1,19 @@
 body {
     
 }
-iframe{
-    margin: 0;
-    width: 100%;
-    height: 1000px;
-}
-.mjp{
+
+.content{
     margin: 0 auto;
-    width: 500px;
-}
-p{
-    font-size: 20px;
-    color: #f00;
+    width: 800px;
+    min-height: 436px;
 }
 
 
-#writeArea{
-    visibility: hidden;
-}
-
+/*Navigation*/
 nav{
     margin: 0;
     height: 55px;
-    background-color: #ccc;
+    background-color: #333;
     font-size: 25px;
 }
 nav ul.list-inline>li{
@@ -34,19 +24,23 @@ nav ul.list-inline>.home{
     float: left;
     margin-left: 20px;
 }
-            
+
+/*Default.cshtml  banner*/            
 #banner{
-    background: #777;
-    height: 600px;
+    background-image: url("/pic/pic03.jpg");
+    background-size: cover;
+    /*background: #777;*/
+    height: 620px;
+    color: white;
                 
 }
             
 #banner .inner{
-    max-height: 300px;
+    max-height: 200px;
     text-align: center;
     margin: 0 auto;
     position: relative;
-    top: 160px;
+    top: 150px;
 }
 #banner .inner h1{
     margin: 0;
@@ -60,4 +54,106 @@ button{
 }
 .sub-heading{
     margin: 20px;
+    color: white;
+}
+.hr{
+    width: 250px;
+}
+
+/*文章标题样式*/
+.psgtitles{
+    font-size: 20px;
+    font-family: "Microsoft YaHei";
+    font-weight: 700;
+    color: #333;
+    
+}
+.post-preview{
+    list-style: none;
+    margin: 40px;
+}
+.poster{
+    font-size: 18px;
+    font-style: italic;
+    font-family: 'Lora', 'Times New Roman', serif;
+    color: #808080;
+    text-align: right;
+}
+/*页尾*/
+footer{
+    margin-top: 50px;
+    height: auto;    
+    background-color: rgba(230,230,230,0.90);
+    padding: 30px;
+    bottom: 0;
+    position: relative;
+    width: 100%;
+}
+
+.copyright{
+    margin-top: 35px;
+    text-align: center;
+}
+
+/*MyPosts.cshtml*/
+h2.title{
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    font-family: fantasy;
+    letter-spacing: 2px;
+}
+#postedtitles{
+    background-color: rgba(200, 200, 200, 0.8);
+}
+#writeBtn{
+    visibility: visible;
+    margin-bottom: 0;
+    width: 140px;
+}
+#submitArticle{
+    padding: 80px;
+}
+.myposts{
+    background-color: rgba(255,255,255,0.95);
+}
+#myposts{
+    background-image: url("/pic/pic03.jpg");
+}
+
+
+#writeArea{
+    visibility: hidden;
+}
+
+textarea{
+    height: 500px;
+}
+.sub-title{
+    font-style: italic;
+    color: #808080;
+    text-align: center;
+    margin-top: 0;
+    
+}
+label{
+    font-size: 20px;
+    color: #808080;
+}
+
+h3#availability{
+    text-align: right;
+    margin-right: 100px;
+    color: cadetblue;
+}
+
+
+.form-group.btn.signup{
+    width: 930px;
+}
+div.login-form{
+    margin-left: 200px;
+}
+div.login-form #submitBtn{
+    margin-left: 300px;
 }

@@ -27,7 +27,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title></title>
+        <title>Impression</title>
         <link href="/css/normalize.css" rel="stylesheet">
         <link href="/css/StyleSheet.css" type="text/css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -44,38 +44,46 @@
                             <li class="dropdown">
                                 <a href="cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="cshtml/MyPosts.cshtml">我的文章</a></li>
-                                    <li><a href="?logout=true">退出登录</a></li>
+                                    <li><a href="/cshtml/MyPosts.cshtml">My Posts</a></li>
+                                    <li><a href="?logout=true">Log Out</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/#articles">Contact Me</a></li>
+                            <li><a href="https://github.com/runningIris">ABOUT ME</a></li>
                         }else{
-                            <li><a href="/cshtml/Login.cshtml">登录</a></li>
-                            <li><a href="/cshtml/Registration.cshtml">注册</a></li>
+                            
+                            <li><a href="/cshtml/Registration.cshtml">Registration</a></li>
                         }
                     }
                     
                 </ul>
             </nav>
         </header>
-        <div id="content" class="login">
+        <div class="login content">
                 @if(Session["username"] != null){
                     Response.Redirect("/");
                 }else{
-                    <h3>登录</h3><hr>
-                    <form method="post" role="form" class="form-inline">
-                        <div class="form-group">
-                            <label for="username" class="col-small-2 control-label">&nbsp;用户名：</label>
-                            <input type="text" name="username" id="username" placeholder="Username" class="form-control input-small" >
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-small-2" for="password">&nbsp;密码：&nbsp;&nbsp;&nbsp;  </label>
-                            <input type="password" name="password" id="password" placeholder="Password" class="form-control input-small">
-                        </div>
-                        <input type="submit" value="提交" class="btn btn-default" id="submitBtn">
-                    </form>
+                    <h2 class="title">Log in</h2><hr>
+                    <div class="login-form">
+                        <form method="post" role="form">
+                            <div class="form-group form-inline">
+                                <label for="username" class="col-sm-3  control-label">&nbsp;Username：</label>
+                                <input type="text" name="username" id="username" placeholder="Username" class="form-control input-lg" >
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class="control-label col-sm-3" for="password">&nbsp;Password：&nbsp;&nbsp;&nbsp;  </label>
+                                <input type="password" name="password" id="password" placeholder="Password" class="form-control input-lg">
+                            </div>
+                            <input type="submit" value="Login" class="btn btn-primary input-lg" id="submitBtn">
+                        </form>
+                    </div>
                 } 
         </div>
+        <footer>
+            <div class="copyright">
+                <h5>Guangdong University of Foreign Studies |  TELL: 18819421945   </h5>
+                <h5>Copyright © Iris 2016</h5>
+            </div>
+        </footer>
         <script src="/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> 

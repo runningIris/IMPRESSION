@@ -7,7 +7,7 @@
     var content = Request["content"];
 
     if(IsPost){
-        if(title != null){
+        if(title != null && content != null){
         db.Execute("INSERT INTO Posts(Title, Content, Bloger, TimePublished) VALUES(@0, @1, @2, @3)", title, content, user, DateTime.Now);
         }
     }
@@ -27,62 +27,78 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title></title>
+        <title>Impression</title>
         <link href="/css/normalize.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <link href="/css/StyleSheet.css"  rel="stylesheet">
     </head>
-    <body>
+    <body id="myposts">
         <header>            
             <nav>
                 <ul class="list-inline nav nav-pills">
                     <li class="home"><a href="/">HOME</a></li>
                     @{
                         if(Session["username"] != null){
-                            //把用户名区域变成一个下拉菜单：我的文章，注销
-                            
                             <li class="dropdown">
-                                <a href="cshtml/MyPosts.cshtml" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
+                                <a href="/" class="dropdown-toggle" data-toggle="dropdown">@Session["username"]<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="cshtml/MyPosts.cshtml">我的文章</a></li>
-                                    <li><a href="?logout=true">退出登录</a></li>
+                                    <li><a href="?logout=true">Log Out</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/#articles">Contact Me</a></li>
+                            <li><a href="https://github.com/runningIris">ABOUT ME</a></li>
                         }else{
-                            <li><a href="/cshtml/Login.cshtml">登录</a></li>
-                            <li><a href="/cshtml/Registration.cshtml">注册</a></li>
+                            <li><a href="/cshtml/Login.cshtml">Login</a></li>
+                            <li><a href="/cshtml/Registration.cshtml">Registration</a></li>
                         }
                     }
                     
                 </ul>
             </nav>
         </header>
-        <div class="content mypost">
-            <div id="postTitle">
-                <h4>我的博文</h4>
+        <div class="content myposts">
+            <div id="postedtitles">
+                <br>
+                <h2 class="title">@Session["username"]'s Posts</h2>
                 <ol>
                     @foreach(var post in posts){
-                        <li><a href="/cshtml/Post.cshtml?PostID=@post.ID">@post.Title</a> @post.TimePublished by @post.Bloger</li>
+                        <li class="post-preview view-title">
+                            <a class="psgtitles" href="/cshtml/Post.cshtml?PostID=@post.ID">@post.Title</a> 
+                            <p class="poster">@post.TimePublished by @post.Bloger</p>
+                            <hr>
+                        </li>
                     }
                 </ol>
+                <div style="height: 1px"></div>
             </div>
             <div id="submitArticle">
                     <!--用一个按钮来控制提交列表的出现<button>-->
-                    <button type="button" class="btn btn-success" id="writeBtn">写文章</button>
+                    <div id="writeBtn">
+                        <button type="button" class="btn btn-primary">Write A New Post</button>
+                    </div>
                     @if(user != null){
                         <div id="writeArea">
+                            <h3 class="sub-title">Writing A New Post</h3>
                             <form method="post">
-                                <p>Please enter your post title and content: </p>
-                                <input type="text" name="title" placeholder="Title">
-                                <br><br>
-                                <textarea name="content" placeholder="Content"></textarea>
-                                <input type="submit">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input class="form-control" type="text" name="title" placeholder="Title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea class="form-control" rows="15" name="content" placeholder="Content"></textarea>
+                                </div>
+                                <input class="btn btn-default" type="submit" value="submit">
                             </form>
                         </div>
                     }
             </div>
         </div>
+        <footer>
+            <div class="copyright">
+                <h5>Guangdong University of Foreign Studies |  TELL: 18819421945   </h5>
+                <h5>Copyright © Iris 2016</h5>
+            </div>
+        </footer>
         <script src="/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
